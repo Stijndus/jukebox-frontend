@@ -1,0 +1,112 @@
+<h3 class="h3 mb-3 font-weight-normal text-center">Home</h3>
+
+<section>
+  <h5 class="h5 mb-3 text-muted text-left">
+    Queue
+    <button data-bs-toggle="modal" data-bs-target="#queueModal" class="btn m-1 btn-primary">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    <button class="btn m-1 btn-primary">
+      Add as playlist
+    </button>
+  </h5>
+  <div class="d-flex flex-wrap">
+    <ng-container *ngFor="let song of queue | async; let i = index">
+      <div class="card m-1" style="width: 18rem">
+        <div class="card-body">
+          <h5 class="card-title">{{ song.title }} - {{ song.artist }}</h5>
+          <p class="card-text">
+            {{ song.genre }}
+          </p>
+          <a [routerLink]="['/song', song.id]" class="btn m-1 btn-primary">Go to song</a>
+          <button class="btn m-1 btn-danger" (click)="deleteFromQueue(i)">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</section>
+
+<section>
+  <h5 class="h5 mb-3 text-muted text-left">
+    Playlists
+    <button data-bs-toggle="modal" data-bs-target="#playlistModal" class="btn m-1 btn-primary">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+  </h5>
+  <div class="d-flex flex-wrap">
+    <ng-container *ngFor="let playlist of playlists | async">
+      <div class="card m-1" style="width: 18rem">
+        <img class="card-img-top" src="assets/images/{{ playlist.image }}" alt="Card image cap" />
+        <div class="card-body">
+          <h5 class="card-title">{{ playlist.title }}</h5>
+          <p class="card-text">
+            {{ playlist.description }}
+          </p>
+          <a [routerLink]="['/playlist', playlist.id]" class="btn m-1 btn-primary">Go to playlist</a>
+          <button class="btn m-1 btn-outline-danger" (click)="deletePlaylist(playlist.id)">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</section>
+
+<div class="modal fade" id="playlistModal" data-toggle="modal" data-target=".playlistModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add playlist</h5>
+        <button type="button" class="close btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close">
+          <i class="fa-solid fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="form">
+          <div class="form-group">
+            <label for="playlistName">Title</label>
+            <input type="text" class="form-control" id="playlistName" aria-describedby="emailHelp"
+              placeholder="Enter title" formControlName="title" />
+          </div>
+          <div class="form-group">
+            <label for="playlistDesc">Description</label>
+            <input type="text" class="form-control" id="playlistDesc" placeholder="Description"
+              formControlName="description" />
+          </div>
+          <div class="modal-footer">
+            <button type="submit" (click)="submitForm()" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="queueModal" data-toggle="modal" data-target=".queueModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add to queue</h5>
+        <button type="button" class="close btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close">
+          <i class="fa-solid fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formQueue">
+          <select class="form-select" id="select_box" formControlName="song">
+            <ng-container *ngFor="let song of allSongs | async">
+              <option value="{{ song.id }}">
+                {{ song.title }} - {{ song.artist }}
+              </option>
+            </ng-container>
+          </select>
+          <div class="modal-footer">
+            <button type="submit" (click)="submitQueueForm()" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

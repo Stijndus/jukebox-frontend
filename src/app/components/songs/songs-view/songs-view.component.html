@@ -1,0 +1,92 @@
+<header>
+  <h3 class="h3 mb-3 font-weight-normal text-center">
+    Title: {{ song?.title }}
+  </h3>
+  <h4 class="h4 mb-3 font-weight-normal text-center text-muted">
+    Artist: {{ song?.artist }}
+  </h4>
+  <h4 class="h4 mb-3 font-weight-normal text-center text-muted">
+    Genre: {{ song?.genre.name }}
+  </h4>
+  <div class="col-md-12 text-center">
+    <button
+      class="btn m-1 btn-outline-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#editModal"
+    >
+      <i class="fas fa-pencil"></i>
+    </button>
+
+    <button class="btn m-1 btn-outline-danger" (click)="deleteSong(song.id)">
+      <i class="fas fa-trash-alt"></i>
+    </button>
+  </div>
+</header>
+
+<div
+  class="modal fade"
+  id="editModal"
+  data-toggle="modal"
+  data-target=".editModal"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit song</h5>
+          <button
+            type="button"
+            class="close btn btn-outline-danger"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            <i class="fa-solid fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="form">
+            <div class="form-group">
+              <label for="songName">Title</label>
+              <input
+                type="text"
+                class="form-control"
+                id="songName"
+                aria-describedby="emailHelp"
+                value="{{song?.title}}"
+                formControlName="title"
+              />
+            </div>
+            <div class="form-group">
+              <label for="songDesc">Description</label>
+              <input
+                type="text"
+                class="form-control"
+                id="songDesc"
+                value="{{song?.artist}}"
+                formControlName="artist"
+              />
+            </div>
+            <div class="form-group">
+                <label for="songArtist">Genre</label>
+                <select id="songArtist" class="form-control" formControlName="genre">
+                  <ng-container *ngFor="let genre of genres | async">
+                    <option value="{{ genre.id }}">{{ genre.name }}</option>
+                  </ng-container>
+                </select>
+              </div>
+            <div class="modal-footer">
+              <button
+                type="submit"
+                (click)="submitForm()"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

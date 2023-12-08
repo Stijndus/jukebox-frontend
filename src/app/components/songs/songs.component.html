@@ -1,0 +1,50 @@
+<h3 class="h3 mb-3 font-weight-normal text-center">
+  All Songs
+  <button data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-primary">
+    <i class="fa-solid fa-plus"></i>
+  </button>
+</h3>
+
+<app-songs-grid [rowData]="songs"></app-songs-grid>
+
+<div class="modal fade" id="myModal" data-toggle="modal" data-target=".myModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add song</h5>
+        <button type="button" class="close btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close">
+          <i class="fa-solid fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="form" autocomplete="off">
+          <div class="form-group">
+            <label for="songName">Title</label>
+            <input type="text" class="form-control" id="songName" aria-describedby="emailHelp" placeholder="Enter title"
+              formControlName="title" />
+          </div>
+
+          <div class="form-group">
+            <label for="songName">Title</label>
+            <input type="artist" class="form-control" id="songName" aria-describedby="emailHelp" placeholder="Enter artist"
+              formControlName="artist" />
+          </div>
+
+          <div class="form-group">
+            <label for="songArtist">Genre</label>
+            <select id="songArtist" class="form-control" formControlName="genre">
+              <ng-container *ngFor="let genre of genres | async">
+                <option value="{{ genre.id }}">{{ genre.name }}</option>
+              </ng-container>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" (click)="submitForm()" class="btn btn-primary" data-bs-dismiss="modal">
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

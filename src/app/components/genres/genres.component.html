@@ -1,0 +1,82 @@
+<header>
+  <h3 class="h3 mb-3 font-weight-normal text-center">
+    All Genres
+    <button
+      data-bs-toggle="modal"
+      data-bs-target="#addModal"
+      class="btn btn-primary"
+    >
+      <i class="fa-solid fa-plus"></i>
+    </button>
+  </h3>
+</header>
+
+<section class="d-flex flex-wrap">
+  <ng-container *ngFor="let genres of genres">
+    <div class="card m-1" style="width: 18rem">
+      <div class="card-body">
+        <h5 class="card-title">{{ genres.name }}</h5>
+        <button class="btn btn-primary" (click)="getGenre(genres.id)" data-bs-toggle="modal"
+        data-bs-target="#editModal">
+          <i class="fas fa-pencil"></i>
+        </button>
+        <button
+          class="btn btn-outline-danger m-1"
+          (click)="deleteGenre(genres.id)"
+        >
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</section>
+
+<div class="modal fade" id="addModal" data-toggle="modal" data-target=".addModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add playlist</h5>
+          <button type="button" class="close btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fa-solid fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="form" autocomplete="off">
+            <div class="form-group">
+              <label for="playlistName">Name</label>
+              <input type="text" class="form-control" id="playlistName" aria-describedby="emailHelp"
+                placeholder="Enter name" formControlName="name" />
+            </div>
+            <div class="modal-footer">
+              <button type="submit" (click)="submitForm()" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="editModal" data-toggle="modal" data-target=".editModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add playlist</h5>
+          <button type="button" class="close btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fa-solid fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="form" autocomplete="off">
+            <div class="form-group">
+              <label for="playlistName">Name</label>
+              <input type="text" class="form-control" id="playlistName" aria-describedby="emailHelp"
+                formControlName="name" value="{{ genre?.name }}"/>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" (click)="submitEditForm(genre.id)" class="btn btn-primary" data-bs-dismiss="modal">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
